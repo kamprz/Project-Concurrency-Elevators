@@ -9,6 +9,8 @@ public class Main
 		 * 3) Liczba wygenerowanych os�b
 		 * 4) Czy ludzie pojawiaj� si� automatycznie?
 		 */
-		new Engine(9,5,30,true);
+		//9,5,30,true
+		//new Engine(5,5,5,false);
+		new ConfigFrame();
 	}
 }

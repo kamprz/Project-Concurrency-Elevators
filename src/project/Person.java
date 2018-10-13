@@ -155,7 +155,7 @@ public class Person extends JLabel implements Runnable
 	
 	public void run() 
 	{
-		if(Engine.autoGeneratePeople) goSleep(id*150*rand.nextInt(10));
+		goSleep(id*150*rand.nextInt(10));
 		while(alive)
 		{
 			randFloor();

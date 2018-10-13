@@ -4,12 +4,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.concurrent.Semaphore;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 
-public class Engine extends JFrame implements MouseListener
-{ 
-	public static boolean autoGeneratePeople;
+public class Engine extends JFrame
+{
 	private static final long serialVersionUID = 1L;
 	private JLabel background;
 	public static int floorsQuantity;
@@ -18,20 +16,18 @@ public class Engine extends JFrame implements MouseListener
 	private Person[] people;
 	private JLabel[] floors;
 	public static Elevator[] elevators = new Elevator[3];
-	private Semaphore waitForClickToGetPersonAlive = new Semaphore(0);
 	
-	public Engine(int flQ, int eC, int pQ, boolean autoGenerate)
+	public Engine(int flQ, int eC, int pQ)
 	{
 		floorsQuantity = flQ;
 		this.evCapacity = eC;
 		this.peopleQuantity=pQ;
-		autoGeneratePeople = autoGenerate;
 		init();
 	}
 	
 	private void init()
 	{
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		setLayout(null);
 		setBackground();
 		setFloors();
@@ -41,11 +37,6 @@ public class Engine extends JFrame implements MouseListener
 		setVisible(true);
 		setZOrder();
 		setResizable(false);
-		if(!autoGeneratePeople)
-		{
-			addMouseListener(this);
-			getPeopleAive();
-		}
 	}
 	
 	private void setFloorImage(int i)
@@ -86,23 +77,10 @@ public class Engine extends JFrame implements MouseListener
 			add(people[i]);
 			people[i].setBounds(Graphics.personXStart,Graphics.personYStart,Graphics.personWidth,Graphics.personHeight);
 			people[i].setVisible(true);
-			if(autoGeneratePeople)
-			{
-				Thread thread = new Thread(people[i]);
-				thread.start();
-			}
+			new Thread(people[i]).start();
 		}
 	}
-	private void getPeopleAive()
-	{
-		for(int i=0;i<peopleQuantity;i++)
-		{
-			try{waitForClickToGetPersonAlive.acquire();}
-			catch(InterruptedException e){}
-			Thread thread = new Thread(people[i]);
-			thread.start();
-		}
-	}
+
 	
 	private void addElevators()
 	{
@@ -124,13 +102,4 @@ public class Engine extends JFrame implements MouseListener
 		for(int j=0;j<floorsQuantity;j++) setComponentZOrder(floors[j],order++);
 		setComponentZOrder(background,order++);
 	}
-	
-	public void mouseClicked(MouseEvent arg0){}
-	public void mouseEntered(MouseEvent arg0){}
-	public void mousePressed(MouseEvent arg0){}
-	public void mouseReleased(MouseEvent arg0) 
-	{
-		waitForClickToGetPersonAlive.release();	
-	}
-	public void mouseExited(MouseEvent e){}
 }
