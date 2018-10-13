@@ -31,9 +31,9 @@ public class Elevator extends JLabel implements Runnable
 	private Lock orderLock = new ReentrantLock(true);
 	
 	/* 	Elevator types:
-	 * 1. od 0 do n/2
-	 * 2. 0, n/2+1 do n
-	 * 3. 0 i w d�
+	 * 1.  0 -> n/2
+	 * 2. 0, n/2+1 -> n
+	 * 3. 0 & lower
 	 */
 	public void init(int cap)
 	{
@@ -44,7 +44,7 @@ public class Elevator extends JLabel implements Runnable
 		setHorizontalTextPosition(JLabel.CENTER);
 	}
 	
-	public Elevator(int cap, int floorsNr, int elevatorType)	//eT={1,2,3}
+	public Elevator(int cap, int floorsNr, int elevatorType)	//elevatorType={1,2,3}
 	{
 		init(cap);
 		switch(elevatorType)
@@ -106,9 +106,9 @@ public class Elevator extends JLabel implements Runnable
 	}
 	public int floorToIndex(int floor)
 	{
-		int wynik=-1;
-		for(int i=0;wynik==-1 && i<nrOfFloorsOperated;i++) if(floorsOperated[i] == floor) wynik = i;
-		return wynik;
+		int result=-1;
+		for(int i=0;result==-1 && i<nrOfFloorsOperated;i++) if(floorsOperated[i] == floor) result = i;
+		return result;
 	}
 	public void order(int floorNumber)
 	{
@@ -147,7 +147,7 @@ public class Elevator extends JLabel implements Runnable
 			actualFloor=getActualFloor();
 			int index = floorToIndex(actualFloor);
 			try{orderLock.lock();
-			if((index>=0) && (floorsOrdered[index] == true)) 
+			if((index>=0) && (floorsOrdered[index] == true))
 			{
 				atAim=true;
 				setState(getState()/2);
@@ -158,16 +158,16 @@ public class Elevator extends JLabel implements Runnable
 
 	private boolean isOrder()
 	{
-		boolean wynik = false;
+		boolean result = false;
 		try{orderLock.lock();
-		for(int i=0; !wynik && i<nrOfFloorsOperated; i++) if(floorsOrdered[i]==true) wynik = true;
+		for(int i=0; !result && i<nrOfFloorsOperated; i++) if(floorsOrdered[i]==true) result = true;
 		if(nrOfPplInside>0) 
 		{
-			wynik=true;
+			result=true;
 			for(Person p: peopleInside) floorsOrdered[floorToIndex(p.aimFloor)] = true;
 		}
 		}finally{orderLock.unlock();}
-		return wynik;
+		return result;
 	}
 	
 	

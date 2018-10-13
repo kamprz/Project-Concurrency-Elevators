@@ -101,20 +101,20 @@ public class Person extends JLabel implements Runnable
 	}
 	public int orderWhichElevator()
 	{
-		int wynik;
+		int result;
 		if(actualFloor != 2)
 		{
-			if(actualFloor<2) wynik = 2;
-			else if(actualFloor < 2+(int)Math.ceil((double)(Engine.floorsQuantity-2)/2)) wynik = 0;
-			else wynik = 1;
+			if(actualFloor<2) result = 2;
+			else if(actualFloor < 2+(int)Math.ceil((double)(Engine.floorsQuantity-2)/2)) result = 0;
+			else result = 1;
 		}
 		else
 		{
-			if(aimFloor < 2) wynik = 2;
-			else if(aimFloor < 2+(int)Math.ceil((double)(Engine.floorsQuantity-2)/2)) wynik = 0;
-			else wynik = 1;
+			if(aimFloor < 2) result = 2;
+			else if(aimFloor < 2+(int)Math.ceil((double)(Engine.floorsQuantity-2)/2)) result = 0;
+			else result = 1;
 		}
-		return wynik;
+		return result;
 	}	
 	private void orderElevator()
 	{

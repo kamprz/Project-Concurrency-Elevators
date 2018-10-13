@@ -88,8 +88,8 @@ public class Engine extends JFrame implements MouseListener
 			people[i].setVisible(true);
 			if(autoGeneratePeople)
 			{
-				Thread watek = new Thread(people[i]);
-				watek.start();
+				Thread thread = new Thread(people[i]);
+				thread.start();
 			}
 		}
 	}
@@ -99,8 +99,8 @@ public class Engine extends JFrame implements MouseListener
 		{
 			try{waitForClickToGetPersonAlive.acquire();}
 			catch(InterruptedException e){}
-			Thread watek = new Thread(people[i]);
-			watek.start();
+			Thread thread = new Thread(people[i]);
+			thread.start();
 		}
 	}
 	
@@ -112,8 +112,8 @@ public class Engine extends JFrame implements MouseListener
 			add(elevators[i]);
 			elevators[i].setBounds(elevators[i].x,elevators[i].y, Graphics.elevatorWidth, Graphics.elevatorHeight);
 			elevators[i].setVisible(true);
-			Thread watek = new Thread(elevators[i]);
-			watek.start();
+			Thread thread = new Thread(elevators[i]);
+			thread.start();
 		}
 	}
 	private void setZOrder()
